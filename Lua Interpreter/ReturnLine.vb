@@ -1,14 +1,18 @@
 ﻿Public Class ReturnLine
     Inherits GenericStatement
 
-    Public Property ReturnValue As LuaObject
+    Public Sub New(Text As String, Filename As String, LineNumber As Integer, ParentChunk As Chunk, Debugger As LuaDebugger)
+        MyBase.New(Text, Filename, LineNumber, ParentChunk, Debugger)
+    End Sub
+
     Protected Property ReturnExpression As String
 
     Public Overrides Sub Run()
+        MyBase.Run()
         If ReturnExpression IsNot Nothing Then
-            ReturnValue = LuaObject.Parse(ReturnExpression, ParentChunk)
+            ParentChunk.SetVariable("return", LuaObject.Parse(ReturnExpression, ParentChunk, Debugger), False)
         Else
-            ReturnValue = LuaObject.Nil
+            ParentChunk.SetVariable("return", LuaObject.Nil, False)
         End If
     End Sub
 
@@ -19,7 +23,4 @@
         End If
     End Sub
 
-    Public Sub New(Text As String, ParentChunk As Chunk)
-        MyBase.New(Text, ParentChunk)
-    End Sub
 End Class

@@ -3,14 +3,14 @@
 Public Class VbInvokable
     Implements IInvokable
 
-    Protected Property F As Func(Of LuaObject(), Chunk, LuaObject)
+    Protected Property F As Func(Of LuaObject(), Chunk, LuaDebugger, LuaObject)
     Protected Property ParentChunk As Chunk
 
-    Public Function Invoke(Arguments() As LuaObject) As LuaObject Implements IInvokable.Invoke
-        Return F.Invoke(Arguments, ParentChunk)
+    Public Function Invoke(Arguments() As LuaObject, Debugger As LuaDebugger) As LuaObject Implements IInvokable.Invoke
+        Return F.Invoke(Arguments, ParentChunk, Debugger)
     End Function
 
-    Public Sub New(F As Func(Of LuaObject(), Chunk, LuaObject), ParentChunk As Chunk)
+    Public Sub New(F As Func(Of LuaObject(), Chunk, LuaDebugger, LuaObject), ParentChunk As Chunk)
         Me.F = F
         Me.ParentChunk = ParentChunk
     End Sub

@@ -3,6 +3,10 @@
 Public Class FunctionAssignment
     Inherits AssignmentLine
 
+    Public Sub New(Text As String, Filename As String, LineNumber As Integer, ParentChunk As Chunk, Debugger As LuaDebugger)
+        MyBase.New(Text, Filename, LineNumber, ParentChunk, Debugger)
+    End Sub
+
     Public Overrides Sub Load()
         'function MyFunction (Param1, Param2) 'Name: $3, Params: $8
         Static form1Regex As New Regex("(function)(\s+)(([A-Z]|[a-z])([^?!\s\+\-\*\/\\\^\%#=~<>{}[\];:,.])*?)(\s*)(\()(.*)(\))", RegexOptions.Compiled Or RegexOptions.IgnoreCase)
@@ -11,7 +15,7 @@ Public Class FunctionAssignment
         Static form2Regex As New Regex("(([A-Z]|[a-z])([^?!\s\+\-\*\/\\\^\%#=~<>{}[\];:,.])*?)\s*\=\s*function\s*(\()(.*)(\))", RegexOptions.Compiled Or RegexOptions.IgnoreCase)
 
         'Body: $1
-        Static functionBody As New Regex("function\s.*?\(.*?\)\s+((.|\n)*?)\s+end", RegexOptions.Compiled Or RegexOptions.IgnoreCase Or RegexOptions.Multiline)
+        Static functionBody As New Regex("function\s.*?\(.*?\)\s+((.|\n)*)\s+end", RegexOptions.Compiled Or RegexOptions.IgnoreCase Or RegexOptions.Multiline)
 
         Dim name As String = Nothing
         Dim params As String = Nothing
@@ -36,11 +40,8 @@ Public Class FunctionAssignment
         If success Then
             body = functionBody.Match(Text).Groups(1).Value
             Me.VariableNames.Add(name)
-            Me.VariableValues.Add(New LuaObject(New FunctionObject(body, params, ParentChunk)))
+            Me.VariableValues.Add(New LuaObject(New FunctionObject(body, params, LineNumber + 1, ParentChunk)))
         End If
     End Sub
 
-    Public Sub New(Text As String, ParentChunk As Chunk)
-        MyBase.New(Text, ParentChunk)
-    End Sub
 End Class

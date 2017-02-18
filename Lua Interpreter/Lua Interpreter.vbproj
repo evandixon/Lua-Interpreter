@@ -65,10 +65,13 @@
   <ItemGroup>
     <Compile Include="AssignmentLine.vb" />
     <Compile Include="Chunk.vb" />
+    <Compile Include="LuaDebugger.vb" />
     <Compile Include="Formatting.vb" />
     <Compile Include="FunctionAssignment.vb" />
     <Compile Include="FunctionObject.vb" />
     <Compile Include="GenericStatement.vb" />
+    <Compile Include="IfEntry.vb" />
+    <Compile Include="IfStatement.vb" />
     <Compile Include="IInvokable.vb" />
     <Compile Include="LuaFile.vb" />
     <Compile Include="LuaObject.vb" />
@@ -90,6 +93,7 @@
     <Compile Include="ReturnLine.vb" />
     <Compile Include="SystemFunctions.vb" />
     <Compile Include="VbInvokable.vb" />
+    <Compile Include="VoidStatement.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
